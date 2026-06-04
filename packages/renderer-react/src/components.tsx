@@ -270,19 +270,35 @@ function resolveProps(
 ): Record<string, unknown> {
   const resolved: Record<string, unknown> = {};
   for (const [key, value] of Object.entries(props)) {
-    if (typeof value === "string" && value.startsWith("@state.")) {
-      // Direct state reference
-      const path = value.slice(7);
-      const segments = path.split(".");
-      let current: unknown = state;
-      for (const seg of segments) {
-        if (current === null || current === undefined || typeof current !== "object") {
-          current = undefined;
-          break;
+    if (typeof value === "string") {
+      if (value.startsWith("@state.")) {
+        // Direct state reference
+        const path = value.slice(7);
+        const segments = path.split(".");
+        let current: unknown = state;
+        for (const seg of segments) {
+          if (current === null || current === undefined || typeof current !== "object") {
+            current = undefined;
+            break;
+          }
+          current = (current as Record<string, unknown>)[seg];
         }
-        current = (current as Record<string, unknown>)[seg];
+        resolved[key] = current;
+      } else if (value.includes("{state.")) {
+        // Template interpolation: "Hello {state.name}" or "{state.indices.0.value}"
+        resolved[key] = interpolate(value, state);
+      } else {
+        resolved[key] = value;
       }
-      resolved[key] = current;
+    } else if (Array.isArray(value)) {
+      // Resolve each item in arrays (for columns, options, etc.)
+      resolved[key] = value.map((item) =>
+        typeof item === "object" && item !== null
+          ? resolveProps(item as Record<string, unknown>, state)
+          : item,
+      );
+    } else if (typeof value === "object" && value !== null) {
+      resolved[key] = resolveProps(value as Record<string, unknown>, state);
     } else {
       resolved[key] = value;
     }

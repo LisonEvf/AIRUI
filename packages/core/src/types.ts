@@ -77,4 +77,14 @@ export type BuiltinComponent =
   | "Image"
   | "Input"
   | "Dropdown"
-  | "Chart";
+  | "Chart"
+  | "Table"
+  | "Dashboard"
+  | "Widget"
+  | "KPI"
+  | "PlateCard"
+  | "Gauge"
+  | "MiniChart"
+  | "ErrorFallback"
+  | "EmptyState"
+  | "Loading";

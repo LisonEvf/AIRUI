@@ -1,0 +1,39 @@
+{
+  "schema": "air-ui@1",
+  "viewport": { "width": 300, "height": 200 },
+  "state": { "count": 0 },
+  "root": {
+    "type": "Column",
+    "props": { "gap": "medium", "align": "center" },
+    "children": [
+      {
+        "type": "Text",
+        "props": { "value": "Count: {state.count}", "style": "title" }
+      },
+      {
+        "type": "Row",
+        "props": { "gap": "small" },
+        "children": [
+          {
+            "type": "Button",
+            "props": { "label": "-" },
+            "on": {
+              "click": { "action": "mutate", "target": "state.count", "by": -1 }
+            }
+          },
+          {
+            "type": "Button",
+            "props": { "label": "+" },
+            "on": {
+              "click": { "action": "mutate", "target": "state.count", "by": 1 }
+            }
+          }
+        ]
+      },
+      {
+        "type": "Text",
+        "props": { "value": "Click buttons to change count", "style": "caption" }
+      }
+    ]
+  }
+}

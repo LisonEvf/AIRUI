@@ -1,0 +1,12 @@
+{
+  "name": "air-ui",
+  "private": true,
+  "version": "0.0.0",
+  "description": "AI-Ready User Interface — LLM-native UI intermediate representation",
+  "packageManager": "pnpm@9.15.4",
+  "scripts": {
+    "build": "pnpm -r run build",
+    "test": "pnpm -r run test",
+    "dev": "pnpm -C playground run dev"
+  }
+}

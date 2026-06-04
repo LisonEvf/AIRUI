@@ -1,0 +1,88 @@
+{
+  "schema": "air-ui@1",
+  "viewport": { "width": 400, "height": 500 },
+  "state": {
+    "username": "",
+    "email": "",
+    "role": "user",
+    "submitted": false
+  },
+  "root": {
+    "type": "Column",
+    "props": { "gap": "medium", "padding": "large" },
+    "children": [
+      {
+        "type": "Text",
+        "props": { "value": "User Registration", "style": "title" }
+      },
+      {
+        "type": "Column",
+        "props": { "gap": "small" },
+        "children": [
+          {
+            "type": "Text",
+            "props": { "value": "Username" }
+          },
+          {
+            "type": "Input",
+            "props": { "placeholder": "Enter username", "value": "" },
+            "on": {
+              "change": { "action": "set", "target": "state.username", "value": "$event.value" }
+            }
+          }
+        ]
+      },
+      {
+        "type": "Column",
+        "props": { "gap": "small" },
+        "children": [
+          {
+            "type": "Text",
+            "props": { "value": "Email" }
+          },
+          {
+            "type": "Input",
+            "props": { "placeholder": "Enter email", "type": "email" },
+            "on": {
+              "change": { "action": "set", "target": "state.email", "value": "$event.value" }
+            }
+          }
+        ]
+      },
+      {
+        "type": "Column",
+        "props": { "gap": "small" },
+        "children": [
+          {
+            "type": "Text",
+            "props": { "value": "Role" }
+          },
+          {
+            "type": "Dropdown",
+            "props": {
+              "options": [
+                { "label": "User", "value": "user" },
+                { "label": "Admin", "value": "admin" },
+                { "label": "Guest", "value": "guest" }
+              ],
+              "selected": "user"
+            },
+            "on": {
+              "change": { "action": "set", "target": "state.role", "value": "$event.value" }
+            }
+          }
+        ]
+      },
+      {
+        "type": "Button",
+        "props": { "label": "Submit" },
+        "on": {
+          "click": {
+            "action": "emit",
+            "event": { "type": "formSubmit", "username": "{state.username}", "email": "{state.email}", "role": "{state.role}" }
+          }
+        }
+      }
+    ]
+  }
+}

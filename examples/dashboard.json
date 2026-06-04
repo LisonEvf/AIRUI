@@ -1,0 +1,68 @@
+{
+  "schema": "air-ui@1",
+  "viewport": { "width": 800, "height": 600 },
+  "state": {
+    "selectedRegion": "all",
+    "regions": ["all", "north", "south", "east", "west"],
+    "salesData": {
+      "labels": ["Q1", "Q2", "Q3", "Q4"],
+      "values": [120, 200, 150, 280]
+    }
+  },
+  "root": {
+    "type": "Column",
+    "props": { "gap": "medium", "padding": "large" },
+    "children": [
+      {
+        "type": "Text",
+        "props": { "value": "Sales Dashboard", "style": "title" }
+      },
+      {
+        "type": "Row",
+        "props": { "gap": "small", "align": "center" },
+        "children": [
+          {
+            "type": "Text",
+            "props": { "value": "Region:" }
+          },
+          {
+            "type": "Dropdown",
+            "props": {
+              "options": [
+                { "label": "All", "value": "all" },
+                { "label": "North", "value": "north" },
+                { "label": "South", "value": "south" },
+                { "label": "East", "value": "east" },
+                { "label": "West", "value": "west" }
+              ],
+              "selected": "all"
+            },
+            "on": {
+              "change": { "action": "set", "target": "state.selectedRegion", "value": "$event.value" }
+            }
+          }
+        ]
+      },
+      {
+        "type": "Row",
+        "props": { "gap": "large" },
+        "children": [
+          {
+            "type": "Column",
+            "props": { "gap": "small", "padding": "medium" },
+            "children": [
+              {
+                "type": "Text",
+                "props": { "value": "Selected: {state.selectedRegion}", "style": "subtitle" }
+              },
+              {
+                "type": "Text",
+                "props": { "value": "Q4 Sales: 280", "style": "title" }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

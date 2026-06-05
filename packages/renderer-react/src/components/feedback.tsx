@@ -43,15 +43,13 @@ export const ErrorFallback: FC<{ comp: any; resolvedProps: Record<string, unknow
   <div style={{ padding: 24, textAlign: "center", borderRadius: 12, background: "var(--air-dangerBg)", border: "1px solid var(--air-danger)" }}>
     <div style={{ fontSize: 14, fontWeight: 600, color: "var(--air-danger)", marginBottom: 4 }}>Something went wrong</div>
     <div style={{ fontSize: 13, color: "var(--air-danger)", opacity: 0.8 }}>{(resolvedProps.message as string) ?? "An unexpected error occurred"}</div>
-    {resolvedProps.retryable && <div style={{ fontSize: 13, color: "var(--air-textMuted)", marginTop: 8 }}>Retrying...</div>}
+    {!!resolvedProps.retryable && <div style={{ fontSize: 13, color: "var(--air-textMuted)", marginTop: 8 }}>Retrying...</div>}
   </div>
 );
 
 // ─── Tooltip ───────────────────────────────────────
 
-export const Tooltip: FC<{ comp: Component; resolvedProps: Record<string, unknown> }> = ({ comp, resolvedProps }) => {
-  // Tooltip wraps its first child and shows content on hover
-  // Note: this is a static implementation; hover state is managed by CSS or parent
+export const Tooltip: FC<{ comp: Component; resolvedProps: Record<string, unknown> }> = ({ comp }) => {
   return (
     <div style={{ position: "relative", display: "inline-block" }}>
       {comp.children?.[0] && <AirUIComponent comp={comp.children[0]} />}

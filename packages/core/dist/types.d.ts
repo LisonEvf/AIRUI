@@ -64,5 +64,5 @@ export type Patch = {
     op: "update-state";
     stateDelta: Record<string, unknown>;
 };
-export type BuiltinComponent = "Column" | "Row" | "Text" | "Button" | "Image" | "Input" | "Dropdown" | "Chart";
+export type BuiltinComponent = "Column" | "Row" | "Text" | "Button" | "Image" | "Input" | "Dropdown" | "Chart" | "Table" | "Dashboard" | "Widget" | "KPI" | "PlateCard" | "Gauge" | "MiniChart" | "ErrorFallback" | "EmptyState" | "Loading";
 //# sourceMappingURL=types.d.ts.map

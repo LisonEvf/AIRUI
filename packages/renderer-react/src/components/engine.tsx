@@ -30,18 +30,17 @@ export const AirUIComponent: FC<{ comp: Component }> = ({ comp }) => {
 
   const resolvedProps = resolveProps(comp.props ?? {}, doc.state);
 
-  // Special: Loading has no props to resolve
   if (comp.type === "Loading") return <Loading />;
-  // Widget is special: takes raw comp, not resolvedProps
   if (comp.type === "Widget") return <Widget comp={comp} />;
 
-  // Custom registry first
-  const custom = getRegisteredComponent(comp.type);
-  if (custom) return <custom comp={comp} resolvedProps={resolvedProps} />;
+  const CustomRenderer = getRegisteredComponent(comp.type);
+  if (CustomRenderer) {
+    const C = CustomRenderer as FC<{ comp: Component; resolvedProps: Record<string, unknown> }>;
+    return <C comp={comp} resolvedProps={resolvedProps} />;
+  }
 
-  // Built-in
   const Builtin = builtinMap[comp.type];
   if (Builtin) return <Builtin comp={comp} resolvedProps={resolvedProps} />;
 
-  return <div style={{ color: "var(--air-danger)", fontSize: 12 }}>Unknown: {comp.type}</div>;
+  return <div style={{ color: "var(--air-danger)", fontSize: 12 }}>{"Unknown: "}{comp.type}</div>;
 };

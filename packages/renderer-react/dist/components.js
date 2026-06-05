@@ -174,19 +174,37 @@ export const AirUIComponent = ({ comp }) => {
 function resolveProps(props, state) {
     const resolved = {};
     for (const [key, value] of Object.entries(props)) {
-        if (typeof value === "string" && value.startsWith("@state.")) {
-            // Direct state reference
-            const path = value.slice(7);
-            const segments = path.split(".");
-            let current = state;
-            for (const seg of segments) {
-                if (current === null || current === undefined || typeof current !== "object") {
-                    current = undefined;
-                    break;
+        if (typeof value === "string") {
+            if (value.startsWith("@state.")) {
+                // Direct state reference
+                const path = value.slice(7);
+                const segments = path.split(".");
+                let current = state;
+                for (const seg of segments) {
+                    if (current === null || current === undefined || typeof current !== "object") {
+                        current = undefined;
+                        break;
+                    }
+                    current = current[seg];
                 }
-                current = current[seg];
+                resolved[key] = current;
             }
-            resolved[key] = current;
+            else if (value.includes("{state.")) {
+                // Template interpolation: "Hello {state.name}" or "{state.indices.0.value}"
+                resolved[key] = interpolate(value, state);
+            }
+            else {
+                resolved[key] = value;
+            }
+        }
+        else if (Array.isArray(value)) {
+            // Resolve each item in arrays (for columns, options, etc.)
+            resolved[key] = value.map((item) => typeof item === "object" && item !== null
+                ? resolveProps(item, state)
+                : item);
+        }
+        else if (typeof value === "object" && value !== null) {
+            resolved[key] = resolveProps(value, state);
         }
         else {
             resolved[key] = value;

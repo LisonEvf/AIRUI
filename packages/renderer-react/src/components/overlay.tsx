@@ -10,10 +10,23 @@ export const Modal: FC<{ comp: Component; resolvedProps: Record<string, unknown>
   const [visible, setVisible] = useState(propVisible);
   const title = (resolvedProps.title as string) ?? "";
   const width = (resolvedProps.width as number) ?? 520;
+  const inline = (resolvedProps.inline as boolean | undefined) ?? false;
   useEffect(() => { setVisible(propVisible); }, [propVisible]);
   if (!visible) return null;
   const close = () => { setVisible(false); emit("close", {}); };
   const { emit } = useComponentEvents(comp);
+
+  if (inline) {
+    return (
+      <div style={{ width: "100%", maxWidth: width, border: "1px solid var(--air-border)", borderRadius: 12, background: "var(--air-surface)", overflow: "hidden", boxShadow: "var(--air-shadow)" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "12px 14px", borderBottom: "1px solid var(--air-borderLight)" }}>
+          <span style={{ fontWeight: 700, color: "var(--air-text)" }}>{title}</span>
+          <button type="button" onClick={close} style={{ width: 28, height: 28, borderRadius: 6, border: "none", background: "var(--air-surfaceAlt)", color: "var(--air-textMuted)", cursor: "pointer" }}>x</button>
+        </div>
+        <div style={{ padding: 14 }}>{comp.children?.map((child: any, i: number) => <AirUIComponent key={child.ref ?? i} comp={child} />)}</div>
+      </div>
+    );
+  }
 
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center", background: "var(--air-overlay)", backdropFilter: "blur(4px)" }} onClick={close}>
@@ -41,11 +54,24 @@ export const Drawer: FC<{ comp: Component; resolvedProps: Record<string, unknown
   const title = (resolvedProps.title as string) ?? "";
   const width = (resolvedProps.width as number) ?? 360;
   const placement = (resolvedProps.placement as string) ?? "right";
+  const inline = (resolvedProps.inline as boolean | undefined) ?? false;
   useEffect(() => { setVisible(propVisible); }, [propVisible]);
   if (!visible) return null;
   const { emit } = useComponentEvents(comp);
   const close = () => { setVisible(false); emit("close", {}); };
   const isRight = placement === "right";
+
+  if (inline) {
+    return (
+      <div style={{ width: "100%", maxWidth: width, minHeight: 220, border: "1px solid var(--air-border)", borderRadius: 12, background: "var(--air-surface)", boxShadow: "var(--air-shadow)", overflow: "hidden" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "12px 14px", borderBottom: "1px solid var(--air-borderLight)" }}>
+          <span style={{ fontWeight: 700, color: "var(--air-text)" }}>{title}</span>
+          <button type="button" onClick={close} style={{ width: 28, height: 28, borderRadius: 6, border: "none", background: "var(--air-surfaceAlt)", color: "var(--air-textMuted)", cursor: "pointer" }}>x</button>
+        </div>
+        <div style={{ padding: 14 }}>{comp.children?.map((child: any, i: number) => <AirUIComponent key={child.ref ?? i} comp={child} />)}</div>
+      </div>
+    );
+  }
 
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 1000, display: "flex", justifyContent: isRight ? "flex-end" : "flex-start", background: "var(--air-overlay)", backdropFilter: "blur(4px)" }} onClick={close}>

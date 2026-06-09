@@ -176,6 +176,7 @@ export const Lightbox: FC<{ comp: Component; resolvedProps: Record<string, unkno
   const [index, setIndex] = useState(Number(resolvedProps.index ?? 0));
   const { emit } = useComponentEvents(comp);
   const current = items[index] ?? items[0];
+  const inline = (resolvedProps.inline as boolean | undefined) ?? false;
 
   if (!current || !visible) return null;
 
@@ -189,6 +190,18 @@ export const Lightbox: FC<{ comp: Component; resolvedProps: Record<string, unkno
     setIndex(next);
     emit("change", { index: next, item: items[next] });
   };
+
+  if (inline) {
+    return (
+      <div style={{ position: "relative", border: "1px solid var(--air-border)", borderRadius: 10, background: "#111", overflow: "hidden" }}>
+        <img src={current.src} alt={current.alt ?? current.title ?? ""} style={{ width: "100%", display: "block", maxHeight: 280, objectFit: "contain", background: "#111" }} />
+        <button type="button" onClick={close} style={{ position: "absolute", top: 8, right: 8, width: 28, height: 28, borderRadius: "50%", border: "none", color: "#fff", background: "rgba(255,255,255,0.18)", cursor: "pointer" }}>x</button>
+        {items.length > 1 && <button type="button" onClick={(event) => { event.stopPropagation(); goTo(index - 1); }} style={carouselButtonStyle("left")}>{"<"}</button>}
+        {items.length > 1 && <button type="button" onClick={(event) => { event.stopPropagation(); goTo(index + 1); }} style={carouselButtonStyle("right")}>{">"}</button>}
+        {(current.title || current.caption) && <div style={{ padding: 10, color: "#fff", fontSize: 13, background: "rgba(0,0,0,0.56)" }}>{current.caption ?? current.title}</div>}
+      </div>
+    );
+  }
 
   return (
     <div onClick={close} style={{ position: "fixed", inset: 0, zIndex: 1200, background: "rgba(0,0,0,0.84)", display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }}>

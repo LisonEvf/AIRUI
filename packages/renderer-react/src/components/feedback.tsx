@@ -199,7 +199,7 @@ export const CommandPalette: FC<{ comp: Component; resolvedProps: Record<string,
   return (
     <div style={{ border: "1px solid var(--air-border)", borderRadius: 12, background: "var(--air-surface)", boxShadow: "var(--air-shadowHover)", overflow: "hidden", maxWidth: (resolvedProps.width as number | string | undefined) ?? 560 }}>
       <input
-        autoFocus
+        autoFocus={(resolvedProps.autoFocus as boolean | undefined) ?? true}
         value={query}
         placeholder={(resolvedProps.placeholder as string) ?? "Search commands..."}
         onChange={(event) => { setQuery(event.target.value); emit("search", { query: event.target.value }); }}

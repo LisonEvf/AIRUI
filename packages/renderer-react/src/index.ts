@@ -14,22 +14,22 @@ export {
   AppShell, Sidebar, TopNav, Toolbar, SplitPane, ScrollArea,
   Markdown, CodeBlock, RichText, Icon,
   Calendar, Kanban, Map, NetworkGraph, Heatmap,
-} from "./components";
+} from "./components/index.js";
 
 // Store
-export { useAirUIStore, type AirUIState } from "./store";
+export { useAirUIStore, type AirUIState } from "./store.js";
 
 // Registry
-export { registerComponent, getRegisteredComponent, type ComponentRenderer } from "./registry";
+export { registerComponent, getRegisteredComponent, type ComponentRenderer } from "./registry.js";
 
 // Host
-export { registerHostFunction, getHostFunction, emitAirUIEvent, handleEvent, type HostFunction } from "./host";
+export { registerHostFunction, getHostFunction, emitAirUIEvent, handleEvent, type HostFunction } from "./host.js";
 
 // Interaction
-export { InteractionProvider, useInteraction, type InteractionHandler } from "./interaction";
+export { InteractionProvider, useInteraction, type InteractionHandler } from "./interaction.js";
 
 // Hooks
-export { useEventHandler, useComponentEvents } from "./hooks";
+export { useEventHandler, useComponentEvents } from "./hooks.js";
 
 // Resolve
-export { resolveProps } from "./resolve";
+export { resolveProps } from "./resolve.js";

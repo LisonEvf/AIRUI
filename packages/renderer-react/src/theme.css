@@ -1,0 +1,39 @@
+/* @air-ui/renderer-react default theme — light baseline (Stripe-inspired).
+   Import this for out-of-the-box styling; override per theme via [data-theme]. */
+:root {
+  --color-app-bg: #f6f9fc;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f4f6fa;
+  --color-border: #e3e8ee;
+  --color-border-strong: #c1c9d2;
+  --color-text: #0a2540;
+  --color-muted: #425466;
+  --color-primary: #635bff;
+  --color-primary-strong: #533afd;
+  --color-primary-soft: #edecff;
+  --color-primary-border: #c9c5ff;
+  --color-primary-text: #ffffff;
+  --color-danger: #df1b41;
+  --color-success: #1a8245;
+  --color-info: #0554f7;
+  --shadow-panel: 0 2px 5px rgba(50, 50, 93, 0.1), 0 1px 2px rgba(0, 0, 0, 0.08);
+  --air-surface: var(--color-surface);
+  --air-surfaceAlt: var(--color-surface-muted);
+  --air-border: var(--color-border);
+  --air-borderLight: #eef1f6;
+  --air-text: var(--color-text);
+  --air-textSecondary: #525f7f;
+  --air-textMuted: var(--color-muted);
+  --air-accent: var(--color-primary);
+  --air-accentHover: var(--color-primary-strong);
+  --air-accentSubtle: var(--color-primary-soft);
+  --air-success: var(--color-success);
+  --air-successBg: rgba(26, 130, 69, 0.1);
+  --air-danger: var(--color-danger);
+  --air-dangerBg: rgba(223, 27, 65, 0.1);
+  --air-warning: #b78400;
+  --air-warningBg: rgba(183, 132, 0, 0.12);
+  --air-overlay: rgba(10, 37, 64, 0.5);
+  --air-shadow: 0 2px 5px rgba(50, 50, 93, 0.1), 0 1px 2px rgba(0, 0, 0, 0.08);
+  --air-shadowHover: 0 13px 27px -5px rgba(50, 50, 93, 0.25), 0 8px 16px -8px rgba(0, 0, 0, 0.3);
+}

@@ -12,9 +12,9 @@ export const Modal: FC<{ comp: Component; resolvedProps: Record<string, unknown>
   const width = (resolvedProps.width as number) ?? 520;
   const inline = (resolvedProps.inline as boolean | undefined) ?? false;
   useEffect(() => { setVisible(propVisible); }, [propVisible]);
+  const { emit } = useComponentEvents(comp);
   if (!visible) return null;
   const close = () => { setVisible(false); emit("close", {}); };
-  const { emit } = useComponentEvents(comp);
 
   if (inline) {
     return (
@@ -56,8 +56,8 @@ export const Drawer: FC<{ comp: Component; resolvedProps: Record<string, unknown
   const placement = (resolvedProps.placement as string) ?? "right";
   const inline = (resolvedProps.inline as boolean | undefined) ?? false;
   useEffect(() => { setVisible(propVisible); }, [propVisible]);
-  if (!visible) return null;
   const { emit } = useComponentEvents(comp);
+  if (!visible) return null;
   const close = () => { setVisible(false); emit("close", {}); };
   const isRight = placement === "right";
 

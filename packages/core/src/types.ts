@@ -69,22 +69,84 @@ export type Patch =
   | { op: "update-state"; stateDelta: Record<string, unknown> };
 
 // ── Built-in Component Names ──
-export type BuiltinComponent =
-  | "Column"
-  | "Row"
-  | "Text"
-  | "Button"
-  | "Image"
-  | "Input"
-  | "Dropdown"
-  | "Chart"
-  | "Table"
-  | "Dashboard"
-  | "Widget"
-  | "KPI"
-  | "PlateCard"
-  | "Gauge"
-  | "MiniChart"
-  | "ErrorFallback"
-  | "EmptyState"
-  | "Loading";
+// Keep this list aligned with renderer-react's builtinMap.
+export const BUILTIN_COMPONENTS = [
+  "Column",
+  "Row",
+  "Divider",
+  "Text",
+  "Button",
+  "Input",
+  "Select",
+  "Switch",
+  "Checkbox",
+  "Radio",
+  "Slider",
+  "Image",
+  "Dropdown",
+  "Form",
+  "Textarea",
+  "DatePicker",
+  "TimePicker",
+  "DateRangePicker",
+  "NumberInput",
+  "Autocomplete",
+  "MultiSelect",
+  "FileUpload",
+  "Video",
+  "Audio",
+  "ImageGallery",
+  "Carousel",
+  "Lightbox",
+  "PDFViewer",
+  "KPI",
+  "PlateCard",
+  "Gauge",
+  "Progress",
+  "Tag",
+  "Badge",
+  "Avatar",
+  "Skeleton",
+  "Table",
+  "Pagination",
+  "DataGrid",
+  "EmptyState",
+  "Chart",
+  "Tabs",
+  "Breadcrumb",
+  "Steps",
+  "Modal",
+  "Drawer",
+  "DropdownMenu",
+  "Alert",
+  "Loading",
+  "ErrorFallback",
+  "Tooltip",
+  "Toast",
+  "Notification",
+  "Popconfirm",
+  "ContextMenu",
+  "CommandPalette",
+  "Dashboard",
+  "Widget",
+  "Accordion",
+  "Timeline",
+  "Tree",
+  "AppShell",
+  "Sidebar",
+  "TopNav",
+  "Toolbar",
+  "SplitPane",
+  "ScrollArea",
+  "Markdown",
+  "CodeBlock",
+  "RichText",
+  "Icon",
+  "Calendar",
+  "Kanban",
+  "Map",
+  "NetworkGraph",
+  "Heatmap",
+] as const;
+
+export type BuiltinComponent = (typeof BUILTIN_COMPONENTS)[number];

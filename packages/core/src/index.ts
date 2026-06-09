@@ -10,6 +10,7 @@ export type {
   BuiltinComponent,
   StatePath,
 } from "./types";
+export { BUILTIN_COMPONENTS } from "./types";
 
 export { validateDocument, type ValidationError } from "./validator";
 export {

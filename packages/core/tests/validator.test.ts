@@ -1,5 +1,38 @@
 import { describe, it, expect } from "vitest";
+import { BUILTIN_COMPONENTS } from "../src/types";
 import { validateDocument } from "../src/validator";
+
+const RENDERER_BUILTINS = [
+  "Column", "Row", "Divider", "Text",
+  "Button", "Input", "Select", "Switch", "Checkbox", "Radio", "Slider", "Image", "Dropdown",
+  "Form", "Textarea", "DatePicker", "TimePicker", "DateRangePicker", "NumberInput", "Autocomplete", "MultiSelect", "FileUpload",
+  "Video", "Audio", "ImageGallery", "Carousel", "Lightbox", "PDFViewer",
+  "KPI", "PlateCard", "Gauge", "Progress", "Tag", "Badge", "Avatar", "Skeleton",
+  "Table", "Pagination", "DataGrid", "EmptyState", "Chart",
+  "Tabs", "Breadcrumb", "Steps",
+  "Modal", "Drawer", "DropdownMenu",
+  "Alert", "Loading", "ErrorFallback", "Tooltip", "Toast", "Notification", "Popconfirm", "ContextMenu", "CommandPalette",
+  "Dashboard", "Widget", "Accordion", "Timeline", "Tree",
+  "AppShell", "Sidebar", "TopNav", "Toolbar", "SplitPane", "ScrollArea",
+  "Markdown", "CodeBlock", "RichText", "Icon",
+  "Calendar", "Kanban", "Map", "NetworkGraph", "Heatmap",
+];
+
+describe("BUILTIN_COMPONENTS", () => {
+  it("matches the renderer-react built-in capability set", () => {
+    expect(BUILTIN_COMPONENTS).toEqual(RENDERER_BUILTINS);
+  });
+
+  it("exposes previously missing app-artifact components after renderer support lands", () => {
+    expect(BUILTIN_COMPONENTS).toContain("Video");
+    expect(BUILTIN_COMPONENTS).toContain("EmptyState");
+    expect(BUILTIN_COMPONENTS).toContain("CommandPalette");
+  });
+
+  it("does not expose components without renderer implementations", () => {
+    expect(BUILTIN_COMPONENTS).not.toContain("MiniChart");
+  });
+});
 
 describe("validateDocument", () => {
   it("should reject non-object input", () => {

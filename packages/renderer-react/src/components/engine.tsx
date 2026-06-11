@@ -34,6 +34,26 @@ const builtinMap: Record<string, FC<{ comp: Component; resolvedProps: Record<str
   Calendar, Kanban, Map, NetworkGraph, Heatmap,
 };
 
+// 未知类型优雅兜底：LLM 输出词汇表外的组件时不再红字报错，
+// 尽力以通用容器渲染 children / 文本类 props，保证动态 UI 永不烂脸。
+const UnknownFallback: FC<{ comp: Component; resolvedProps: Record<string, unknown> }> = ({ comp, resolvedProps }) => {
+  const textLike = ["label", "value", "title", "text", "content"]
+    .map((key) => resolvedProps[key])
+    .find((v) => typeof v === "string" || typeof v === "number");
+  const hasChildren = (comp.children?.length ?? 0) > 0;
+  if (!hasChildren && textLike == null) {
+    return <span data-air-unknown={comp.type} style={{ display: "none" }} />;
+  }
+  return (
+    <div data-air-unknown={comp.type} style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+      {textLike != null && <span style={{ fontSize: "1rem", lineHeight: 1.6, color: "var(--air-text)" }}>{String(textLike)}</span>}
+      {comp.children?.map((child, i) => (
+        <AirUIComponent key={child.ref ?? i} comp={child} />
+      ))}
+    </div>
+  );
+};
+
 export const AirUIComponent: FC<{ comp: Component }> = ({ comp }) => {
   const doc = useAirUIStore((s) => s.doc);
   if (!doc) return null;
@@ -52,5 +72,5 @@ export const AirUIComponent: FC<{ comp: Component }> = ({ comp }) => {
   const Builtin = builtinMap[comp.type];
   if (Builtin) return <Builtin comp={comp} resolvedProps={resolvedProps} />;
 
-  return <div style={{ color: "var(--air-danger)", fontSize: 12 }}>{"Unknown: "}{comp.type}</div>;
+  return <UnknownFallback comp={comp} resolvedProps={resolvedProps} />;
 };

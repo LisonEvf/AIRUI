@@ -14,13 +14,19 @@ const PALETTE = ["#635bff", "#0d9462", "#e05942", "#c27803", "#0091ff", "#7c3aed
 
 function getThemeColors() {
   const s = getComputedStyle(document.documentElement);
-  return { text: s.getPropertyValue("--air-text").trim() || "#1a1f36", textMuted: s.getPropertyValue("--air-textMuted").trim() || "#a3acb9", border: s.getPropertyValue("--air-border").trim() || "#e3e8ee", surface: s.getPropertyValue("--air-surface").trim() || "#ffffff" };
+  return { text: s.getPropertyValue("--air-text").trim() || "#1a1f36", textMuted: s.getPropertyValue("--air-textMuted").trim() || "#a3acb9", border: s.getPropertyValue("--air-border").trim() || "#e3e8ee", surface: s.getPropertyValue("--air-surface").trim() || "#ffffff", accent: s.getPropertyValue("--air-accent").trim() || "#635bff", accentSubtle: s.getPropertyValue("--air-accentSubtle").trim() || "#eae8ff" };
+}
+
+/** 主题主色优先的系列调色板：图表自动跟随当前主题。 */
+function themedPalette(accent: string): string[] {
+  return accent ? [accent, ...PALETTE.filter((c) => c.toLowerCase() !== accent.toLowerCase())] : PALETTE;
 }
 
 function buildOption(chartType: ChartType, raw: unknown): Record<string, unknown> {
   const tc = getThemeColors();
+  const palette = themedPalette(tc.accent);
   const axis = { axisLine: { lineStyle: { color: tc.border } }, axisTick: { show: false }, axisLabel: { color: tc.textMuted, fontSize: 12 }, splitLine: { lineStyle: { color: tc.border, type: "dashed" as const } } };
-  const tip = { backgroundColor: tc.surface, borderColor: tc.border, textStyle: { color: tc.text, fontSize: 13 } };
+  const tip = { backgroundColor: tc.surface, borderColor: tc.border, textStyle: { color: tc.text, fontSize: 13 }, extraCssText: "border-radius:8px;box-shadow:0 4px 14px rgba(0,0,0,0.12);" };
 
   if (chartType === "candlestick") { const d = raw as { dates?: string[]; ohlc?: number[][] } ?? {}; return { tooltip: { trigger: "axis", ...tip }, grid: { left: 60, right: 20, top: 20, bottom: 40 }, xAxis: { type: "category", data: d.dates ?? [], ...axis }, yAxis: { type: "value", scale: true, ...axis }, dataZoom: [{ type: "inside", start: 50, end: 100 }], series: [{ type: "candlestick", data: d.ohlc ?? [] }] }; }
   if (chartType === "scatter") { const arr = Array.isArray(raw) ? raw : []; return { tooltip: tip, grid: { left: 60, right: 20, top: 20, bottom: 30 }, xAxis: { type: "value", ...axis }, yAxis: { type: "value", ...axis }, color: PALETTE, series: [{ type: "scatter", data: arr.map((item: any) => [item.x ?? 0, item.y ?? 0, item]), symbolSize: 10, itemStyle: { borderColor: "#fff", borderWidth: 1 } }] }; }
